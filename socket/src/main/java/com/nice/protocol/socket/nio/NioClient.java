@@ -61,7 +61,7 @@ public class NioClient {
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Socket connecting time");
+			System.out.println("Socket connecting time out!");
 		}
 		
 	}
