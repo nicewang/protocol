@@ -51,9 +51,13 @@ public class NioClient {
 				Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
 				while(iterator.hasNext()){
 					
+					SelectionKey selectionKey = iterator.next();
 					iterator.remove();
-					if(channel.isConnectionPending()){  //此处完成TCP建立连接的三次握手
-						channel.finishConnect();
+					if(selectionKey.isConnectable())
+					{
+						if(channel.isConnectionPending()){  //此处完成TCP建立连接的三次握手
+							channel.finishConnect();
+						}
 					}
 					
 				}
@@ -201,6 +205,10 @@ public class NioClient {
 		int port = 6666;
 		return port;
 		
+	}
+	
+	public Selector getSelector() {
+		return selector;
 	}
 
 }
