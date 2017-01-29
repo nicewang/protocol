@@ -103,4 +103,8 @@ public class NioConnectCenter {
 		
 	}
 	
+	public List<Selector> getSelector() {
+		return selectors;
+	}
+	
 }

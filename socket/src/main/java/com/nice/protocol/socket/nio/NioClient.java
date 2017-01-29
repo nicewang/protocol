@@ -20,6 +20,9 @@ public class NioClient {
 	private ByteBuffer sendbuffer = ByteBuffer.allocate(1024);
 	private ByteBuffer readbuffer = ByteBuffer.allocate(1024);
 	
+	private String ip;
+	private int port;
+	
 	/**
 	 * （客户端）采用nio的方式通过socket与服务器建立连接
 	 */
@@ -33,6 +36,7 @@ public class NioClient {
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			System.out.println("Open selector error");
+			return;
 		}
 		//3.
 		try {
@@ -43,6 +47,7 @@ public class NioClient {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Connect error or register error!");
+			return;
 		}
 		//4.	
 		try {
@@ -114,6 +119,7 @@ public class NioClient {
 		byte[] bytes = data.getBytes();
 		if(bytes == null) {
 			System.out.println("Error: The sending data is null!");
+			return;
 		}
 		sendbuffer.clear();
 		sendbuffer.put(bytes);
@@ -138,6 +144,10 @@ public class NioClient {
 		int num = -1;
 		String data = null;
 		readbuffer.clear();
+		
+		if(!channel.isConnected()) {
+			System.out.println("The channel isn't connected!");
+		}
 		
 		try {
 			num = channel.read(readbuffer);
@@ -193,18 +203,20 @@ public class NioClient {
 		this.channel = channel;
 	}
 	
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+	
 	public String getIp() {
-		
-		String ip = "127.0.0.1";
 		return ip;
-		
+	}
+	
+	public void setPort(int port) {
+		this.port = port;
 	}
 	
 	public int getPort() {
-		
-		int port = 6666;
 		return port;
-		
 	}
 	
 	public Selector getSelector() {
