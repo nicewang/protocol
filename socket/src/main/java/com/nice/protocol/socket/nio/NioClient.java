@@ -156,12 +156,26 @@ public class NioClient {
 			System.out.println("Read channel error!");
 		}
 		
+		if(num == -1){  // 客户端已经断开连接
+			
+			System.out.println("Disconnected with server!");
+			NioConnectCenter.getInstance().deregisterChannel(channel);  //要在连接中心注销该客户端通道
+			try {
+				channel.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return data;
+			
+		}
+		
 		if(num > 0) { //说明有读到数据
 			
 			readbuffer.flip();
 			byte[] bytes = new byte[readbuffer.remaining()];
 			readbuffer.get(bytes);
-			data = bytes.toString();
+			data = new String(readbuffer.array(), 0, num);
 			
 		}
 		

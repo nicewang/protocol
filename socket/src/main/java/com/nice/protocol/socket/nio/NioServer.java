@@ -40,6 +40,7 @@ public class NioServer {
 			channel.bind(new InetSocketAddress(getPort()));
 			channel.register(selector, SelectionKey.OP_ACCEPT);
 			System.out.println(3);
+			System.out.println("Welcome to Nice's chatting room!");
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -132,6 +133,7 @@ public class NioServer {
 	public String read(SocketChannel client) {
 		
 		String data = null;
+		int num = -1;
 		readbuffer.clear();
 		
 		if(!client.isConnected()) {
@@ -139,26 +141,32 @@ public class NioServer {
 		}
 		
 		try {
-			int num = client.read(readbuffer);
-			if(num == -1){  // 客户端已经断开连接
-				
-				System.out.println("The client has disconnected!");
-				NioConnectCenter.getInstance().deregisterChannel(client);  //要在连接中心注销该客户端通道
-				client.close();
-				return data;
-				
-			} else if(num > 0) {  //说明有读到数据
-				
-				readbuffer.flip();
-				byte[] bytes = new byte[readbuffer.remaining()];
-				readbuffer.get(bytes);
-				data = new String(readbuffer.array(), 0, num);
-				
-			}
+			num = client.read(readbuffer);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Read client-channel error!");
 			data = "err";
+		}
+		
+		if(num == -1){  // 客户端已经断开连接
+			
+			System.out.println("The client has disconnected!");
+			NioConnectCenter.getInstance().deregisterChannel(client);  //要在连接中心注销该客户端通道
+			try {
+				client.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return data;
+			
+		} else if(num > 0) {  //说明有读到数据
+			
+			readbuffer.flip();
+			byte[] bytes = new byte[readbuffer.remaining()];
+			readbuffer.get(bytes);
+			data = new String(readbuffer.array(), 0, num);
+			
 		}
 		
 		return data;

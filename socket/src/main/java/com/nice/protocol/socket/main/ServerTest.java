@@ -10,7 +10,6 @@ public class ServerTest {
 		
 		nioServer.setPort(6666);
 		nioServer.open();
-		
 		new Thread(){
 			public void run() {
 				while(true) {
@@ -24,7 +23,6 @@ public class ServerTest {
 				}
 			}
 		}.start();
-		
 		ServerReceiverThread receiverThread = new ServerReceiverThread();
 		receiverThread.setNioServer(nioServer);
 		receiverThread.start();

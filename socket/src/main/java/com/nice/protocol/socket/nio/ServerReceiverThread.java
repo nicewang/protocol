@@ -11,12 +11,14 @@ public class ServerReceiverThread extends Thread{
 	
 	private NioServer nioServer;
 	private int recErrCount = 0;
+	private String receiveData = null;
 	
 	public void run() {
 		
 		while(true) {
 			if(nioServer == null) {
-				continue;
+				System.out.println("Please set server first!");
+				return;
 			}
 			List<Selector> selectors = NioConnectCenter.getInstance().getSelector();
 			Iterator<Selector> iterator = selectors.iterator();
@@ -28,9 +30,10 @@ public class ServerReceiverThread extends Thread{
 						Iterator<SelectionKey> iterator1 = selector.selectedKeys().iterator();
 						while(iterator1.hasNext()) {
 							SelectionKey sk = iterator1.next();
-//							iterator1.remove();   //要是remove掉，下次不管这个通道是否就绪，都不会读这个通道了
+							iterator1.remove();   //要是remove掉，下次不管这个通道是否就绪，都不会读这个通道了--你确定其？！
+							//这里remove与否没区别啊？！
 							SocketChannel channel = (SocketChannel) sk.channel();
-							String receiveData = nioServer.read(channel);
+							receiveData = nioServer.read(channel);
 							if(receiveData != null && receiveData != "err") {
 								System.out.println(receiveData);
 								System.out.println(selector.keys().size());
@@ -45,6 +48,7 @@ public class ServerReceiverThread extends Thread{
 									System.out.println(selector.keys().size());
 								}
 							}
+							receiveData = null;
 						}
 					}
 				} catch (IOException e) {

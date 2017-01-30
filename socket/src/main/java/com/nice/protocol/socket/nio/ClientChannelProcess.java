@@ -72,7 +72,7 @@ public class ClientChannelProcess extends Thread{
 						iterator.remove();
 					}
 				}
-				Thread.sleep(1000);
+				Thread.sleep(5000);
 				sendData = "Hello, Nice!";
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
