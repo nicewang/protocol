@@ -39,6 +39,7 @@ public class ServerTest {
 					String recvData = receiverThread.getRecvData();
 					if(recvData != null) {
 						send.setSendData(recvData);
+						send.sending();
 						recvData = null;
 						receiverThread.setRecvData(null);
 					}
