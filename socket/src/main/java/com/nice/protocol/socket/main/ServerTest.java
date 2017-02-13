@@ -2,6 +2,7 @@ package com.nice.protocol.socket.main;
 
 import com.nice.protocol.socket.nio.NioServer;
 import com.nice.protocol.socket.nio.ServerReceiverThread;
+import com.nice.protocol.socket.nio.ServerSend;
 
 public class ServerTest {
 	private static NioServer nioServer = new NioServer();
@@ -23,9 +24,34 @@ public class ServerTest {
 				}
 			}
 		}.start();
-		ServerReceiverThread receiverThread = new ServerReceiverThread();
+		
+		final ServerReceiverThread receiverThread = new ServerReceiverThread();
 		receiverThread.setNioServer(nioServer);
 		receiverThread.start();
+		
+		final ServerSend send = new ServerSend();
+		send.setNioServer(nioServer);
+		
+		new Thread() {
+			
+			public void run() {
+				while(true) {
+					String recvData = receiverThread.getRecvData();
+					if(recvData != null) {
+						send.setSendData(recvData);
+						recvData = null;
+						receiverThread.setRecvData(null);
+					}
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+			
+		}.start();
 		
 	}
 	

@@ -12,6 +12,7 @@ public class ServerReceiverThread extends Thread{
 	private NioServer nioServer;
 	private int recErrCount = 0;
 	private String receiveData = null;
+	private String receiveData1 = null; //用于向入口函数传送该类从客户端接收到的信息
 	
 	public void run() {
 		
@@ -37,6 +38,7 @@ public class ServerReceiverThread extends Thread{
 							if(receiveData != null && receiveData != "err") {
 								System.out.println(receiveData);
 								System.out.println(selector.keys().size());
+								setRecvData(receiveData);
 							} else if(receiveData == "err") {
 								//类似于心跳检测机制，出现“err”五次则视为客户端已断连
 								recErrCount++;
@@ -69,6 +71,23 @@ public class ServerReceiverThread extends Thread{
 	
 	public void setNioServer(NioServer nioServer) {
 		this.nioServer = nioServer;
+	}
+	
+	/**
+	 * 把从客户端接收到的信息赋值给receiveData1以便入口函数能够获取该信息的接口
+	 * 以及入口函数在接收到该信息之后将receiveData1置为空值的接口
+	 * @param receiveData1
+	 */
+	public void setRecvData(String receiveData1) {
+		this.receiveData1 = receiveData1;
+	}
+	
+	/**
+	 * 入口函数获取该类中从客户端所接收到的信息的接口
+	 * @return
+	 */
+	public String getRecvData() {
+		return receiveData1;
 	}
 
 }
