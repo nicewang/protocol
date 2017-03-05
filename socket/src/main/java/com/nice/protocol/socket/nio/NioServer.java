@@ -9,6 +9,11 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
+/**
+ * 采用nio方式的服务器
+ * @author NiceWang
+ *
+ */
 public class NioServer {
 
 	private ServerSocketChannel channel;
@@ -20,6 +25,9 @@ public class NioServer {
 	private String ip;
 	private int port;
 	
+	/**
+	 * 打开服务器
+	 */
 	public void open() {
 		
 		//1.初始化通道
@@ -49,6 +57,9 @@ public class NioServer {
 		
 	}
 	
+	/**
+	 * 服务端监听是否客户端来有连接
+	 */
 	public void listen() {
 		
 		try {
@@ -78,6 +89,9 @@ public class NioServer {
 		
 	}
 	
+	/**
+	 * 关闭服务器
+	 */
 	public void close() {
 		//1.注销通道与选择器的关系
 		channel.keyFor(selector).cancel();
@@ -97,6 +111,11 @@ public class NioServer {
 		}	
 	}
 	
+	/**
+	 * 发送数据（写）
+	 * @param data
+	 * @param client
+	 */
 	public void send(String data, SocketChannel client) {
 		
 		//1.判断通道是否为空，为空这说明该通道已被关闭
@@ -130,6 +149,11 @@ public class NioServer {
 		
 	}
 	
+	/**
+	 * 接收数据（读）
+	 * @param client
+	 * @return
+	 */
 	public String read(SocketChannel client) {
 		
 		String data = null;
@@ -173,6 +197,9 @@ public class NioServer {
 		
 	}
 	
+	/**
+	 * 初始化通道操作，同客户端的初始化通道操作相同
+	 */
 	private void initChannel() {
 		
 		//1.看到通道是否为空，若通道非空，则先关闭它
@@ -198,6 +225,8 @@ public class NioServer {
 		}
 		
 	}
+	
+	//以下的get，set方法是模仿Spring的依赖注入思想
 	
 	public void setIp(String ip) {
 		this.ip = ip;

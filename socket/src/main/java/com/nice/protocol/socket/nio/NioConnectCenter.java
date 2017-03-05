@@ -10,7 +10,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 
+ * 连接中心
+ * 主要是一个key为channel，value为注册了该channel的selector的HasgMap
  * @author NiceWang
  *
  */
@@ -102,6 +103,8 @@ public class NioConnectCenter {
 		return selector;
 		
 	}
+	
+	//以下的get，set方法是模仿Spring的依赖注入思想
 	
 	public List<Selector> getSelector() {
 		return selectors;

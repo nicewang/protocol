@@ -7,6 +7,11 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * 服务端的发送线程
+ * @author NiceWang
+ *
+ */
 public class ServerSend{
 	
 	private NioServer nioServer;

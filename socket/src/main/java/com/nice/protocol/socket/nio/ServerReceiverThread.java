@@ -7,6 +7,11 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * 服务端的接收线程
+ * @author NiceWang
+ *
+ */
 public class ServerReceiverThread extends Thread{
 	
 	private NioServer nioServer;

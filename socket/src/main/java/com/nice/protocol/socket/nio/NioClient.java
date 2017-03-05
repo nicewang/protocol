@@ -9,7 +9,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
 /**
- * 
+ * 采用nio方式的客户端
  * @author NiceWang
  *
  */
@@ -182,7 +182,9 @@ public class NioClient {
 		return data;
 		
 	}
-	
+	/**
+	 * 初始化通道，主要是先关闭非空通道
+	 */
 	private void initChannel() {
 		
 		//1.看到通道是否为空，若通道非空，则先关闭它
@@ -208,6 +210,8 @@ public class NioClient {
 		}
 		
 	}
+	
+	//以下的get，set方法是模仿Spring的依赖注入思想
 	
 	public SocketChannel getChannel() {
 		return channel;

@@ -4,6 +4,12 @@ import com.nice.protocol.socket.nio.NioServer;
 import com.nice.protocol.socket.nio.ServerReceiverThread;
 import com.nice.protocol.socket.nio.ServerSend;
 
+/**
+ * 服务端的转发中心
+ * 三线程：一个线程监听客户端连接，一个线程读多个客户端数据（在客户但通道就绪时），一个线程向所有就绪客户端转发所接收到的消息
+ * @author NiceWang
+ *
+ */
 public class ServerTest {
 	private static NioServer nioServer = new NioServer();
 	

@@ -9,6 +9,11 @@ import java.util.Iterator;
 
 import com.nice.protocol.socket.util.Operations;
 
+/**
+ * 客户端的通道处理线程
+ * @author NiceWang
+ *
+ */
 public class ClientChannelProcess extends Thread{
 	
 	private Selector selector;
